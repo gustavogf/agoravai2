@@ -78,11 +78,13 @@ $(document).ready(function(){
     window.recognition.lang = 'pt-BR';
 
     window.recognition.onstart = function() {
+      console.log('onstart');
       recognizing = true;
     }
 
     window.recognition.onend = function() {
       //recognizing = false;
+      console.log('onend');
       if(recognizing)
         window.recognition.start();
     }
@@ -97,19 +99,20 @@ $(document).ready(function(){
         }
       }
       if (final_transcript) {
+        var date = new Date();
         $.ajax({
           type: "POST",
           url: "/transcript",
           data: { user: app.getCookie("av_username"),
             message: final_transcript,
-            timestamp: start_timestamp
+            timestamp: date.getHours() + ':' + date.getMinutes()
           },
           success: function (data){
-            console.log(data);
+            //console.log(data);
             final_transcript = '';
             //window.recognition.stop();
             //window.recognition.start();
-            start_timestamp = event.timeStamp;
+            //start_timestamp = event.timeStamp;
           },
           error: function(data) {
             return false;
