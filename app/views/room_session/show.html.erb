@@ -38,7 +38,7 @@
     </div>
 
     <div class="row">
-      <div class="col s9">
+      <div class="col s8">
         <h5>Conversa</h5>
         <ul id="messages-list" class="collection scrollable">
           <!-- <li class="collection-item avatar">
@@ -51,7 +51,7 @@
         </ul>
       </div>
 
-      <div class="col s3">
+      <div class="col s4">
         <h5>Usuários</h5>
         <ul class="collection scrollable">
           <% @users.each do |user| %>
@@ -60,6 +60,7 @@
             </li>
           <% end %>
         </ul>
+        <div id='graph'></div>
       </div>
     </div>
 
