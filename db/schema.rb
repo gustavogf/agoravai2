@@ -18,8 +18,6 @@ ActiveRecord::Schema.define(version: 20170528125444) do
   create_table "messages", force: :cascade do |t|
     t.string   "content"
     t.datetime "received_at"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
     t.integer  "room_session_id"
     t.integer  "user_id"
     t.index ["room_session_id"], name: "index_messages_on_room_session_id", using: :btree
@@ -31,15 +29,11 @@ ActiveRecord::Schema.define(version: 20170528125444) do
     t.datetime "start_time"
     t.datetime "end_time"
     t.integer  "num_participants"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
   end
 
   create_table "room_sessions_users", id: false, force: :cascade do |t|
-    t.integer  "user_id",         null: false
-    t.integer  "room_session_id", null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.integer "user_id",         null: false
+    t.integer "room_session_id", null: false
   end
 
   create_table "terms", force: :cascade do |t|
@@ -49,9 +43,7 @@ ActiveRecord::Schema.define(version: 20170528125444) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "name"
   end
 
   add_foreign_key "messages", "room_sessions"
