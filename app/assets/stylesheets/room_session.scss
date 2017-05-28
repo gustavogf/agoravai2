@@ -18,10 +18,6 @@
 }
 
 .wave-container {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   & .wave-bar {
     display: inline-block;
     width: 10px;
