@@ -10,9 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20170528002045) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "messages", force: :cascade do |t|
+    t.string   "content"
+    t.datetime "received_at"
+    t.integer  "room_session_id"
+    t.integer  "user_id"
+    t.index ["room_session_id"], name: "index_messages_on_room_session_id", using: :btree
+    t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
+  end
+
+  create_table "room_sessions", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer  "num_participants"
+  end
+
+  create_table "room_sessions_users", id: false, force: :cascade do |t|
+    t.integer "user_id",         null: false
+    t.integer "room_session_id", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+  end
+
+  add_foreign_key "messages", "room_sessions"
+  add_foreign_key "messages", "users"
 end

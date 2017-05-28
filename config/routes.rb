@@ -1,9 +1,14 @@
 Rails.application.routes.draw do
   root 'home#index'
 
-  get 'room/:room_name' => 'room_session#show'
+  controller 'room_session' do
+    get  '/room/:room_name' => :show,   as: :room
+    post '/room/new'        => :create, as: :create_room
+  end
 
   controller 'messages' do
     post 'transcript'
   end
 end
+
+
