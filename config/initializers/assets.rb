@@ -5,5 +5,6 @@ Rails.application.config.assets.precompile += %w(
   home.scss
   room_session.js
   room_session.css
+  timeline/*
+  network/*
 )
-

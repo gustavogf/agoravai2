@@ -29,7 +29,8 @@ var app = {
       $('#modal').modal('open');
     }
     else {
-      console.log(user + " entrou")
+      $("#username").val(user)
+      submitUserForm()
     }
   }
 }
@@ -48,10 +49,183 @@ function submitUserForm() {
 }
 
 function play() {
-  $(".wave-container").toggleClass("hide");
+  startStop()
+  $(".wave-container, .icon-play").toggleClass("hide");
+  $('.timer').removeClass('hide');
+  if (recognizing) {
+    recognizing = false;
+    window.recognition.stop();
+    return;
+  }
+  final_transcript = '';
+  window.recognition.start();
+  start_timestamp = event.timeStamp;
 }
+
+function draw(nodes) {
+  // var nodes = null;
+  var edges = null;
+  var network = null;
+
+  // create people.
+  // value corresponds with the age of the person
+  // nodes = [
+    // {id: 1,  value: 1000,  label: 'Algie' },
+    // {id: 2,  value: 31, label: 'Alston'},
+    // {id: 3,  value: 12, label: 'Barney'},
+    // {id: 4,  value: 16, label: 'Coley' },
+    // {id: 5,  value: 17, label: 'Grant' },
+    // {id: 6,  value: 15, label: 'Langdon'},
+    // {id: 7,  value: 6,  label: 'Lee'},
+    // {id: 8,  value: 5,  label: 'Merlin'},
+    // {id: 9,  value: 30, label: 'Mick'},
+    // {id: 10, value: 18, label: 'Tod'},
+  // ];
+
+  // create connections between people
+  // value corresponds with the amount of contact between two people
+  edges = [
+    // {from: 2, to: 8, value: 3, title: '3 emails per week'},
+    // {from: 2, to: 9, value: 5, title: '5 emails per week'},
+    // {from: 2, to: 10,value: 1, title: '1 emails per week'},
+    // {from: 4, to: 6, value: 8, title: '8 emails per week'},
+    // {from: 5, to: 7, value: 2, title: '2 emails per week'},
+    // {from: 4, to: 5, value: 1, title: '1 emails per week'},
+    // {from: 9, to: 10,value: 2, title: '2 emails per week'},
+    // {from: 2, to: 3, value: 6, title: '6 emails per week'},
+    // {from: 3, to: 9, value: 4, title: '4 emails per week'},
+    // {from: 5, to: 3, value: 1, title: '1 emails per week'},
+    // {from: 2, to: 7, value: 4, title: '4 emails per week'}
+  ];
+
+  // Instantiate our network object.
+  var container = document.getElementById('graph');
+  var data = {
+    nodes: nodes,
+    edges: edges
+  };
+  var options = {
+    nodes: {
+      shape: 'dot',
+    }
+  };
+  network = new vis.Network(container, data, options);
+}
+
+var milisegundo = 0+"0";
+var segundo = 0+"0";
+var minuto = 0+"0";
+var chrono;
+var isOn = false;
+
+function startStop(btn){
+  if (!isOn){
+    chrono = setInterval('time()',9.83);
+    isOn = true;
+  } else {
+    clearInterval(chrono);
+    isOn = false;
+  }
+}
+
+function cleanTimer(){
+  $('.timer').text("00:00.00");
+  milisegundo = 0+"0";
+  segundo = 0+"0";
+  minuto = 0+"0";
+}
+
+function time(){
+   if (milisegundo < 99){
+      milisegundo++
+      if(milisegundo < 10){milisegundo = "0"+milisegundo}
+   }else
+      if(milisegundo == 99 && segundo < 59){
+         milisegundo = 0+"0";
+  segundo++;
+  if(segundo < 10){segundo = "0"+segundo}
+      }
+   if(segundo == 59 && milisegundo == 99 && minuto < 59){
+      milisegundo = 0+"0";
+      segundo = 0+"0";
+      minuto++;
+      if(minuto < 10){minuto = "0"+minuto}
+   }else segundo
+      if(segundo == 59 && milisegundo == 99 && minuto == 59){
+         milisegundo = 0+"0";
+  segundo+"0";
+  minuto = 0+"0";
+}
+   $('.timer').text(minuto +":"+ segundo+"."+ milisegundo);
+}
+
+var final_transcript = '';
+var recognizing = false;
+var ignore_onend;
+var start_timestamp;
 
 $(document).ready(function(){
   $('.modal').modal();
   app.checkCookie();
+
+  if (!('webkitSpeechRecognition' in window)) {
+    console.log('browser does not support webkitSpeechRecognition');
+  } else {
+    window.recognition = new webkitSpeechRecognition();
+    window.recognition.continuous = true;
+    window.recognition.interimResults = true;
+    window.recognition.lang = 'pt-BR';
+
+    window.recognition.onstart = function() {
+      console.log('onstart');
+      recognizing = true;
+    }
+
+    window.recognition.onend = function() {
+      //recognizing = false;
+      console.log('onend');
+      if(recognizing)
+        window.recognition.start();
+    }
+
+    window.recognition.onresult = function(event) {
+      var interim_transcript = '';
+      for (var i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          final_transcript += event.results[i][0].transcript;
+        } else {
+          interim_transcript += event.results[i][0].transcript;
+        }
+      }
+      if (final_transcript) {
+        var date = new Date();
+        $.ajax({
+          type: "POST",
+          url: "/transcript",
+          data: { user: app.getCookie("av_username"),
+            message: final_transcript,
+            room: $('section.room_session').data('room-id'),
+            timestamp: date.getHours() + ':' + date.getMinutes()
+          },
+          success: function (data){
+            //console.log(data);
+            final_transcript = '';
+            // draw(data.nodes);
+            //window.recognition.stop();
+            //window.recognition.start();
+            //start_timestamp = event.timeStamp;
+          },
+          error: function(data) {
+            return false;
+          }
+        })
+      } //else if (interim_transcript) {
+      //console.log('interim_transcript', interim_transcript);
+      //}
+    };
+  }
+
+  draw([]);
 });
+
+
