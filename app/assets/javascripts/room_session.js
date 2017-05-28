@@ -50,9 +50,71 @@ function submitUserForm() {
 
 function play() {
   $(".wave-container").toggleClass("hide");
+  if (recognizing) {
+    window.recognition.stop();
+    return;
+  }
+  final_transcript = '';
+  window.recognition.start();
+  start_timestamp = event.timeStamp;
 }
+
+var final_transcript = '';
+var recognizing = false;
+var ignore_onend;
+var start_timestamp;
 
 $(document).ready(function(){
   $('.modal').modal();
   app.checkCookie();
+
+  if (!('webkitSpeechRecognition' in window)) {
+    console.log('browser does not support webkitSpeechRecognition');
+  } else {
+    window.recognition = new webkitSpeechRecognition();
+    window.recognition.continuous = true;
+    window.recognition.interimResults = true;
+    window.recognition.lang = 'pt-BR';
+
+    window.recognition.onstart = function() {
+      recognizing = true;
+    }
+
+    window.recognition.onend = function() {
+      recognizing = false;
+    }
+
+    window.recognition.onresult = function(event) {
+      var interim_transcript = '';
+      for (var i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          final_transcript += event.results[i][0].transcript;
+        } else {
+          interim_transcript += event.results[i][0].transcript;
+        }
+      }
+      if (final_transcript) {
+        $.ajax({
+          type: "POST",
+          url: "/transcript",
+          data: { user: app.getCookie("av_username"),
+            message: interim_transcript,
+            timestamp: start_timestamp
+          },
+          success: function (data){
+            console.log(data);
+            //final_transcript = '';
+            //window.recognition.stop();
+            //window.recognition.start();
+            start_timestamp = event.timeStamp;
+          },
+          error: function(data) {
+            return false;
+          }
+        })
+      } //else if (interim_transcript) {
+      //console.log('interim_transcript', interim_transcript);
+      //}
+    };
+  }
 });
