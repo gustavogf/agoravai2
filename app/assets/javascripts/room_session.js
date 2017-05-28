@@ -49,7 +49,9 @@ function submitUserForm() {
 }
 
 function play() {
-  $(".wave-container").toggleClass("hide");
+  startStop()
+  $(".wave-container, .icon-play").toggleClass("hide");
+  $('.timer').removeClass('hide');
   if (recognizing) {
     recognizing = false;
     window.recognition.stop();
@@ -110,6 +112,52 @@ function draw(nodes) {
   network = new vis.Network(container, data, options);
 }
 
+var milisegundo = 0+"0";
+var segundo = 0+"0";
+var minuto = 0+"0";
+var chrono;
+var isOn = false;
+
+function startStop(btn){
+  if (!isOn){
+    chrono = setInterval('time()',9.83);
+    isOn = true;
+  } else {
+    clearInterval(chrono);
+    isOn = false;
+  }
+}
+
+function cleanTimer(){
+  $('.timer').text("00:00.00");
+  milisegundo = 0+"0";
+  segundo = 0+"0";
+  minuto = 0+"0";
+}
+
+function time(){
+   if (milisegundo < 99){
+      milisegundo++
+      if(milisegundo < 10){milisegundo = "0"+milisegundo}
+   }else
+      if(milisegundo == 99 && segundo < 59){
+         milisegundo = 0+"0";
+  segundo++;
+  if(segundo < 10){segundo = "0"+segundo}
+      }
+   if(segundo == 59 && milisegundo == 99 && minuto < 59){
+      milisegundo = 0+"0";
+      segundo = 0+"0";
+      minuto++;
+      if(minuto < 10){minuto = "0"+minuto}
+   }else segundo
+      if(segundo == 59 && milisegundo == 99 && minuto == 59){
+         milisegundo = 0+"0";
+  segundo+"0";
+  minuto = 0+"0";
+}
+   $('.timer').text(minuto +":"+ segundo+"."+ milisegundo);
+}
 
 var final_transcript = '';
 var recognizing = false;

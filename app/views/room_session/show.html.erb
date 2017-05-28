@@ -6,33 +6,25 @@
           <h1 class="teal-text"><%= @room.name %></h1>
         </div>
         <div class="right">
-          <button onclick="play()" id="play-button" class="btn-floating btn-large waves-effect waves-light"><i class="material-icons">play_arrow</i></button>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="center">
-        <div class="wave-container hide">
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
-          <div class="wave-bar"></div>
+          <span class="timer hide">00:00:00</span>
+          <div class="wave-container hide">
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+          </div>
+          <button onclick="play()" id="play-button" class="btn-floating btn-large waves-effect waves-light">
+            <i class="material-icons icon-play">play_arrow</i>
+            <i class="material-icons">stop</i>
+          </button>
         </div>
       </div>
     </div>
