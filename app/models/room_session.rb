@@ -6,7 +6,7 @@ class RoomSession < ApplicationRecord
 
   def word_cloud
     text = messages.pluck(:content).join("\n")
-    entities = analyze_entities
+    entities = analyze_entities(text)
     process_entities(entities)
   end
 
