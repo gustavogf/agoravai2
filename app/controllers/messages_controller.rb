@@ -17,7 +17,7 @@ class MessagesController < ApplicationController
 
     ActionCable.server.broadcast 'messages',
       message: message.content,
-      nodes: room.terms.top_five,
+      nodes: room.top_words,
       user: user_name,
       timestamp: timestamp
 

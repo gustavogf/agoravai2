@@ -56,4 +56,11 @@ class RoomSession < ApplicationRecord
     process_entities(entities)
   end
 
+  def top_words
+    word_cloud.uniq{ |name, salience| name }.take(8).each_with_index.inject([]) do |a, ((name, salience), index)|
+      a << {
+        id: index+1, value: salience, label: name
+      }
+    end
+  end
 end
