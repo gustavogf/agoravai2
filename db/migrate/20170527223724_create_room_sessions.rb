@@ -5,6 +5,8 @@ class CreateRoomSessions < ActiveRecord::Migration[5.0]
       t.timestamp :start_time
       t.timestamp :end_time
       t.integer :num_participants
+
+      t.timestamps
     end
   end
 end
