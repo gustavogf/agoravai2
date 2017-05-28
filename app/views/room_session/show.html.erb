@@ -27,7 +27,7 @@
     </div>
 
     <div id="modal" class="modal">
-      <%= form_tag set_user_path, class: 'form', method: 'post', remote: true do %>
+      <%= form_tag set_user_path, class: 'form', method: 'post', id: 'user-name-form',  remote: true do %>
         <div class="modal-content">
           <h4>Insira seu nome</h4>
           <div class="input-field">
@@ -37,7 +37,7 @@
           <%= hidden_field_tag "room_session_id", @room.id %>
         </div>
         <div class="modal-footer">
-          <button type="submit" id="btn-create-room" class="waves-effect waves-green btn-flat">Enviar</button>
+          <button type="button" onclick="submitUserForm()" id="btn-submit-user" class="waves-effect waves-green btn-flat">Enviar</button>
         </div>
       <% end %>
     </div>

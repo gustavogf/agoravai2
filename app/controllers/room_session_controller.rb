@@ -11,7 +11,7 @@ class RoomSessionController < ApplicationController
   def set_user
     user = User.where(name: params['username']).first_or_create
     room_sessions_user = RoomSessionsUser.create(user_id: user.id, room_session_id: params['room_session_id'])
-    binding.pry
+
     respond_to do |format|
       format.json {
         render :json => {
