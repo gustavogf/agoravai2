@@ -172,8 +172,8 @@ $(document).ready(function(){
     console.log('browser does not support webkitSpeechRecognition');
   } else {
     window.recognition = new webkitSpeechRecognition();
-    window.recognition.continuous = true;
-    window.recognition.interimResults = true;
+    //window.recognition.continuous = true;
+    //window.recognition.interimResults = true;
     window.recognition.lang = 'pt-BR';
 
     window.recognition.onstart = function() {
@@ -204,6 +204,7 @@ $(document).ready(function(){
           url: "/transcript",
           data: { user: app.getCookie("av_username"),
             message: final_transcript,
+            room: $('section.room_session').data('room-id'),
             timestamp: date.getHours() + ':' + date.getMinutes()
           },
           success: function (data){
