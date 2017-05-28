@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Snitcher</title>
+    <title>Skeeter</title>
     <%= csrf_meta_tags %>
     <%= action_cable_meta_tag %>
 
@@ -16,7 +16,10 @@
   <body>
     <nav class="blue-grey">
       <div class="nav-wrapper">
-        <%= link_to "Snitcher", root_path, class: 'brand-logo center' %>
+        <%= link_to root_path, class: 'brand-logo center' do %>
+          <span>Skeeter</span>
+          <%= image_tag 'pen-icon-white.png', height: '40px' %>
+        <% end %>
       </div>
     </nav>
     <%= yield %>
