@@ -1,6 +1,7 @@
 class RoomSessionController < ApplicationController
   def show
     @room = RoomSession.where(name: params['room_name']).first
+    @users = @room.users
   end
 
   def create
