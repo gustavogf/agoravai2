@@ -98,12 +98,12 @@ $(document).ready(function(){
           type: "POST",
           url: "/transcript",
           data: { user: app.getCookie("av_username"),
-            message: interim_transcript,
+            message: final_transcript,
             timestamp: start_timestamp
           },
           success: function (data){
             console.log(data);
-            //final_transcript = '';
+            final_transcript = '';
             //window.recognition.stop();
             //window.recognition.start();
             start_timestamp = event.timeStamp;
