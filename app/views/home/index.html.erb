@@ -4,11 +4,10 @@
       <div class="col s12">
         <div class="center">
           <!-- Modal Trigger -->
-          <a class="waves-effect waves-light btn" href="#modal1">Criar Sala</a>
-
+          <button id="btn-open-modal" data-target="modal" class="waves-effect waves-light btn">Criar Sala</button>
           <!-- Modal Structure -->
-          <div id="modal1" class="modal">
-            <%= form_tag create_room_path, class: 'form', method: 'post', remote: true do %>
+          <div id="modal" class="modal">
+            <%= form_tag create_room_path, class: 'form', method: 'post' do %>
               <div class="modal-content">
                 <h4>Dê um nome para a sala</h4>
                 <div class="input-field">
