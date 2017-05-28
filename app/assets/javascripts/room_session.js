@@ -29,7 +29,8 @@ var app = {
       $('#modal').modal('open');
     }
     else {
-      console.log(user + " entrou")
+      $("#username").val(user)
+      submitUserForm()
     }
   }
 }
