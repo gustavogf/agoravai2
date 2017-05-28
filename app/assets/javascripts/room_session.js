@@ -51,6 +51,7 @@ function submitUserForm() {
 function play() {
   $(".wave-container").toggleClass("hide");
   if (recognizing) {
+    recognizing = false;
     window.recognition.stop();
     return;
   }
@@ -81,7 +82,9 @@ $(document).ready(function(){
     }
 
     window.recognition.onend = function() {
-      recognizing = false;
+      //recognizing = false;
+      if(recognizing)
+        window.recognition.start();
     }
 
     window.recognition.onresult = function(event) {
