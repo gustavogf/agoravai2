@@ -9,8 +9,9 @@ class MessagesController < ApplicationController
     room_id   = params['room']
 
     user    = User.find_or_create_by(name: user_name)
-    message = Message.create(user: user, content: content)
     room    = RoomSession.find(room_id)
+    message = Message.create(user: user, content: content, room_session: room)
+
 
     ActionCable.server.broadcast 'messages',
       message: message.content,

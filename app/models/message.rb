@@ -1,5 +1,6 @@
 class Message < ApplicationRecord
   belongs_to :user
+  belongs_to :room_session
   has_many   :terms
 
   after_create :breakup_into_terms
