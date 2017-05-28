@@ -47,6 +47,10 @@ function submitUserForm() {
   });
 }
 
+function play() {
+  $(".wave-container").toggleClass("hide");
+}
+
 $(document).ready(function(){
   $('.modal').modal();
   app.checkCookie();
