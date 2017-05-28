@@ -204,6 +204,7 @@ $(document).ready(function(){
           url: "/transcript",
           data: { user: app.getCookie("av_username"),
             message: final_transcript,
+            room: $('section.room_session').data('room-id'),
             timestamp: date.getHours() + ':' + date.getMinutes()
           },
           success: function (data){
