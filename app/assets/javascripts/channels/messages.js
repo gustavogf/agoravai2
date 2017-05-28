@@ -5,7 +5,9 @@ App.messages = App.cable.subscriptions.create('MessagesChannel', {
     console.log(data);
 
     $('#messages-list').append(
-      $('<li class="collection-item avatar">').append('<i class="material-icons circle"></i> <span class="title">' + data['user'] + '</span> <p>' + data['message'] + '</p> <span class="secondary-content">' + data['timestamp'] + '</span>'));
+      $('<li class="collection-item avatar">').append('<i class="material-icons circle">record_voice_over</i> <span class="title">' + data['user'] + '</span> <p>' + data['message'] + '</p> <span class="secondary-content">' + data['timestamp'] + '</span>'));
+
+    $('#messages-list').scrollTop($('#messages-list')[0].scrollHeight);
   },
 
   // renderMessage: function(data) {
