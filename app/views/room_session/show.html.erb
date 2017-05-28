@@ -6,7 +6,7 @@
           <h1 class="teal-text"><%= @room.name %></h1>
         </div>
         <div class="right">
-          <span class="timer hide">00:00:00</span>
+          <span class="timer hide grey-text">00:00:00</span>
           <div class="wave-container hide">
             <div class="wave-bar"></div>
             <div class="wave-bar"></div>
@@ -30,7 +30,7 @@
     </div>
 
     <div class="row">
-      <div class="col s8">
+      <div class="col s9">
         <h5>Conversa</h5>
         <ul id="messages-list" class="collection scrollable">
           <!-- <li class="collection-item avatar">
@@ -43,7 +43,7 @@
         </ul>
       </div>
 
-      <div class="col s4">
+      <div class="col s3">
         <h5>Usuários</h5>
         <ul class="collection scrollable">
           <% @users.each do |user| %>
