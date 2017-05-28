@@ -1,0 +1,2 @@
+module RoomSessionHelper
+end
